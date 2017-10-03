@@ -1,35 +1,35 @@
-import reducer from "./reducer";
-import { createTodo, toggleTodo, filterTodo } from "./actions";
+import reducer from "../reducer";
+import * as actions from "../actions";
 
 
 describe("CREATE_TODO", function() {
   test("creates a new todo", function () {
       const initialState = {todos: [], nextId: 1}
-      const state = reducer(initialState, createTodo("Test"));
+      const state = reducer(initialState, actions.createTodo("Test"));
       expect(state.todos).toHaveLength(1);
       expect(state.todos[0]).toEqual({id: 1, done: false, text: "Test"});
   })
 
   test("updates nextId", function () {
       const initialState = {todos: [], nextId: 1}
-      const state = reducer(initialState, createTodo("Test"));
+      const state = reducer(initialState, actions.createTodo("Test"));
       expect(state.nextId).toEqual(2);
   })
 })
 
 describe("TOGGLE_TODO", function(){
   test("toggles todo", function(){
-    const initialState = {todos:[], nextId: 1 }
-    const state=reducer(initialState, toggleTodo("Test"));
-    expect(state.todos.done)toEqual({done:true, text: "Test"});
+    const initialState = {todos:[{id:1, done: false, text:"Test"}]}
+    const state=reducer(initialState, actions.toggleTodo(1));
+    expect(state.todos[0].done).toEqual(true);
   })
 })
 
 describe("FILTER_TODOS", function(){
   test("filters todos", function(){
-    const initialState = {todos:[], nextId: 1}
-    const state = reducer(initialState, filterTodos("Test"));
-    expect(state.filter.set).toEqual({set:set});
+    const initialState = {filter: 'all'};
+    const state = reducer(initialState, actions.filterTodos('completed'));
+    expect(state.filter).toEqual('completed');
   })
 })
 
